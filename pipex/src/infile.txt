@@ -1,0 +1,14 @@
+1. A line number counter can be useful if you're doing
+2. cross-browser testing. For example, if your a webapp
+3.  counts how many lines a user has entered in a form
+4. and it checks the format of each line, then if the
+5. user makes a mistake, it may be a good idea to tell
+6. them which line the mistake happened. Without line
+7. numbers added to input data, the user would have to
+8. count the lines himself or herself to find the line
+9. with an error but if you enumerate lines for the user
+10.  and add line numbers to the input text, then the
+11. user can quickly find the line in question. This
+12. program can help you write unit tests for this use
+13. case. The input data of the test would be text
+14. without line numbers and the output data would be

@@ -1,0 +1,2 @@
+1. A line number counter can be useful if you're doing
+2. cross-browser testing. For example, if your a webapp
