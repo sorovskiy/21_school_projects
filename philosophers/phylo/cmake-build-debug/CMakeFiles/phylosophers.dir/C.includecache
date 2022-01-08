@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/jlexie/Desktop/projects/phylosophers/main.c
+phylo.h
+/Users/jlexie/Desktop/projects/phylosophers/phylo.h
+
+/Users/jlexie/Desktop/projects/phylosophers/phylo.h
+stdio.h
+-
+unistd.h
+-
+stdlib.h
+-
+pthread.h
+-
+sys/time.h
+-
+
