@@ -1,24 +1,26 @@
 # `pipex`
 
-The purpose of this project is the discovery in detail UNIX mechanism - `pipe`.<br>
+Целью этого проекта является реализация механизма UNIX - `pipe`.<br>
 
 
 ### Discription of mandatory part
-The program `pipex` should repeat the behaviour of the next shell command
+Программа "pipex` должна повторять поведение следующей shell-команды
 ```bash
 $> < file1 cmd1 | cmd2 > file2
 ```
-and looks like this:
+и вызываться таким образом:
 ```bash
 $> ./pipex file1 cmd1 cmd2 file2
 ```
-All errors like: wrong commands,  permission to files and etc, need be handle.
-### Discription of bonus part
-Program need handle multiple pipes
+
+Программе необходимо обрабатывать несколько пайпов:
 ```bash
 $> < file1 cmd1 | cmd2 | cmd3 | ... | cmdn > file2
 
 $> ./pipex file1 cmd1 cmd2 cmd3 ... cmdn file2
 ```
+
+Для компиляции приложения нужно запустить команду \
+```make all```  <br>
 
 [подробное описание задачи](en.subject.pdf)
