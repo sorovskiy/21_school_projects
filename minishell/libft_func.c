@@ -11,6 +11,14 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
+int	ft_isalnum(int ch)
+{
+	if ((ch >= 65 && ch <= 90) || (ch > 96 && ch < 123)
+		|| (ch >= 48 && ch <= 57) || ch == '_')
+		return (1);
+	return (0);
+}
+
 int	ft_strlen(char *str)
 {
 	int	i;
@@ -93,4 +101,36 @@ char	*ft_strdup(const char *s)
 	return (a);
 }
 
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+{
+	size_t	i;
+	size_t	j;
 
+	i = 0;
+	if (*needle == '\0')
+		return ((char *)haystack);
+	while (haystack[i] && i < len)
+	{
+		j = 0;
+		while (haystack[i + j] == needle[j] && needle[j] && (i + j) < len)
+			j++;
+		if (needle[j] == '\0')
+			return ((char *)haystack + i);
+		i++;
+	}
+	return ((void *)0);
+}
+
+int	ft_strncmp(char *s1, char *s2, unsigned int n)
+{
+	unsigned int	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while ((s1[i] != '\0') && (i < n - 1) && (s1[i] == s2[i]))
+	{
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}

@@ -11,9 +11,12 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-void error_exit(char *s)
+void error_exit(char *s, char tok)
 {
-	printf("minishell: %s\n", s);
+	if (tok == 0)
+		printf("minishell: %s\n", s);
+	else
+		printf("minishell: %s \'%c\'\n", s, tok);
 	exit(1);
 }
 
@@ -24,69 +27,41 @@ void gaps(char *s, int *i)
 		while (s[++*i] != '\'' && s[*i] != '\0')
 			;
 		if (s[*i] == '\0')
-			error_exit("Error");
+			error_exit("synthax error: not paired quotes", 0);
 	}
 	if (s[*i] == '\"')
 	{
 		while (s[++*i] != '\"' && s[*i] != '\0')
 			if (s[*i] == '\\' && s[*i + 1] == '\"')
-				*i++;
+				(*i)++;
 		if (s[*i] == '\0')
-			error_exit("Error");
-		printf("s: %s, s[i]: %c\n", s, s[*i]);
-		printf("s: %s, s[i]: %s\n", s, s + *i);
+			error_exit("synthax error: not paired quotes", 0);
+//		printf("s: %s, s[i]: %c\n", s, s[*i]);
+//		printf("s: %s, s[i]: %s\n", s, s + *i);
 	}
 }
 
-void pre_parser(char *s)
+
+int pre_parser(char *s)
 {
 	int i;
 
 	i = -1;
-	if (s[i + 1] == ';')
-		error_exit("synthax error near unexpected token \';\'");
+	if (s[i + 1] == ';' || s[i + 1] == '|' )
+		error_exit("synthax error near unexpected token", s[i + 1]);
 	while(s[++i])
 	{
-		if (s[i] == '\\')
-			i += 2;
 		if (s[i] == '|' && s[i + 1] == ';')
-				error_exit("synthax error near unexpected token \';\'");
+			error_exit("synthax error near unexpected token", s[i]);
 		if (s[i] == ';' && (s[i + 1] == '|' || s[i + 1] == ';'))
-				error_exit("synthax error near unexpected token \';\'");
+			error_exit("synthax error near unexpected token", s[i]);
 		if (s[i] == '\'' || s[i] == '\"')
 			gaps(s, &i);
+		if (s[i] == '\\' &&  s[i + 1] != '\0')
+			i += 1;
 	}
 	if (s[i - 1] == '\\')
-		error_exit("Error");
+		error_exit("synthax error near unexpected token", s[i - 1]);
+	return 1;
 }
 
-
-//
-//void pre_parser2(char *s)
-//{
-//	int i;
-//
-//	i = -1;
-//	while(s[++i])
-//	{
-//		if (s[i] == '\\')
-//			i += 2;
-//		if (s[i] == '\'')
-//		{
-//			while (s[++i] != '\'' && s[i] != '\0')
-//				;
-//			if (s[i] == '\0')
-//				error_exit("Error");
-//		}
-//		if (s[i] == '\"')
-//		{
-//			while (s[++i] != '\"' && s[i] != '\0')
-//				if (s[i] == '\\' && s[i + 1] == '\"')
-//					i++;
-//			if (s[i] == '\0')
-//				error_exit("Error");
-//			printf("s: %s, s[i]: %c\n", s, s[i]);
-//			printf("s: %s, s[i]: %s\n", s, s + i);
-//		}
-//	}
-//}
