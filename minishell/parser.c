@@ -11,29 +11,35 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-void parser(char *s, char **env)
+void parser(t_list *elem, char **env)
 {
 	int i;
+	char *s;
 
+	s = elem->pre_com;
 	i = -1;
 	while(s[++i])
 	{
-		if (s[i] == '\'')
-		{
-			s = gap(s, &i);
-			printf("s: %s, s[i]: %c\n", s, s[i]);
-		}
-		if (s[i] == '\"')
-		{
-			s = gap2(s, &i, env);
-			printf("s: %s, s[i]: %c\n", s, s[i]);
-		}
-		if (s[i] == '\\')
-			s = slash(s, &i);
-		if (s[i] == '$')
-			s = dollar(s, &i, env);
+//		if (s[i] == '\'')
+//		{
+//			s = gap(s, &i);
+////			printf("s: %s, s[i]: %c\n", s, s[i]);
+//		}
+//		if (s[i] == '\"')
+//		{
+//			s = gap2(s, &i, env);
+////			printf("s: %s, s[i]: %c\n", s, s[i]);
+//		}
+//		if (s[i] == '\\')
+//			s = slash(s, &i);
+//		if (s[i] == '$')
+//			s = dollar(s, &i, env);
 
+		if (s[i] == '>' || s[i] == '<')
+			redirects(s, &i, &elem->fd0, env);
 	}
+//	printf("s: %s\n", s);
+	elem->pre_com = s;
 }
 
 char *dollar(char *s, int *i, char **env)
@@ -69,14 +75,16 @@ char *dollar(char *s, int *i, char **env)
 
 
 	res1 = ft_strjoin(tmp1, value);
-
-	free(value);
-	free(key);
-
+	*i = j - 1;
 	if (res1)
+	{
 		res2 = ft_strjoin(res1, tmp3);
+		*i = *i + ft_strlen(value);
+	}
 	else // если ключа нет
 		res2 = ft_strjoin(tmp1, tmp3);
+	free(key);
+	free(value);
 	free(tmp1);
 	free(tmp3);
 	free(res1);
@@ -85,7 +93,7 @@ char *dollar(char *s, int *i, char **env)
 //	printf("res: %s\n", res2);
 
 	free(s);
-	*i = *i - 1;
+//	*i = *i - 1;
 	return res2;
 }
 

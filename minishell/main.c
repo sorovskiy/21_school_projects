@@ -30,26 +30,37 @@
 int main(int argc, char **argv, char **env)
 {
 	int n;
-	t_list	*stack = NULL;
+	t_list	*stack = NULL, *lst;
 
 //	char *com = ft_strdup("\"sdf\"com\\\"ma|nd\"lsdkcomma\"nd\\");
-	char *com = ft_strdup("\"sdf\"com$USE ma|nd\"lsdkcomma\"nd");
-//	char *com = ft_strdup("ls \"-l ls\"k | echo $US\'ER|ef\'sd\"df ; gssd\"d ; cat -e abc");
+//	char *com = ft_strdup("\"sdf\"com$USE ma|nd\"lsdkcomma\"nd");
+	char *com = ft_strdup("ls \"-l ls\"k >    re\'di$U SERre\'ct   first  second | echo $US\'ER|ef\'sd\"df ; gssd\"d ; cat -e abc");
+	char *red = ft_strdup("$USER ls \"-l ls\"k | echo $US\'ER|ef\'sd\"df ; gssd\"d ; cat -e abc");
 
 
-	printf("%s\n", com);
+	printf("%s\n\n", com);
 
 //	n = pre_parser(com);
 
 
-//	stack_init(com, &stack);
-//
-	printf("\nAll is OK, n = %d\n", n);
+	stack_init(com, &stack);
+
+//	printf("\nAll is OK, n = %d\n", n);
 //
 //	ft_lstprint(stack);
 
 
-	parser(com, env);
+//	lst = stack;
+//	while (lst)
+//	{
+//		parser(lst, env);
+//		lst = lst->next;
+//	}
+
+
+	printf("\n%s\n", stack->pre_com);
+	parser(stack, env);
+
 
 //	while(1);
 	return 0;

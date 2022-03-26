@@ -38,11 +38,13 @@ int		ft_strncmp(char *s1, char *s2, unsigned int n);
 char	*slash(char *s, int *i);
 char	*gap(char *s, int *i);
 char	*gap2(char *s, int *i, char **env);
+void	gaps(char *s, int *i);
 char	*dollar(char *s, int *i, char **env);
-void	parser(char *s, char **env);
+void	parser(t_list *elem, char **env);
 int 	pre_parser(char *s);
 int		stack_init(char *s, t_list **stack);
 void	ft_lstprint(t_list *lst);
+char	*redirects(char *s, int *i, int *fd, char **env);
 
 void	ft_push(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char* content, int *fd, int pipe);
