@@ -14,8 +14,11 @@
 
 #include <stdio.h>
 #include <sys/stat.h>
+#include <fcntl.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <errno.h>
+#include <string.h>
 
 typedef struct s_list
 {
@@ -50,5 +53,6 @@ void	ft_push(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char* content, int *fd, int pipe);
 t_list	*ft_pop(t_list **lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+void 	error_exit(char *s, char tok);
 
 #endif //MINISHELL_H

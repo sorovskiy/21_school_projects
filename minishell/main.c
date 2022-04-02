@@ -34,7 +34,7 @@ int main(int argc, char **argv, char **env)
 
 //	char *com = ft_strdup("\"sdf\"com\\\"ma|nd\"lsdkcomma\"nd\\");
 //	char *com = ft_strdup("\"sdf\"com$USE ma|nd\"lsdkcomma\"nd");
-	char *com = ft_strdup("ls \"-l ls\"k >    re\'di$U SERre\'ct   first  second | echo $US\'ER|ef\'sd\"df ; gssd\"d ; cat -e abc");
+	char *com = ft_strdup("ls \"-l ls\"k <    re\'di$U SERre\'ct   first  second | echo $US\'ER|ef\'sd\"df ; gssd\"d ; cat -e abc");
 	char *red = ft_strdup("$USER ls \"-l ls\"k | echo $US\'ER|ef\'sd\"df ; gssd\"d ; cat -e abc");
 
 
@@ -58,7 +58,7 @@ int main(int argc, char **argv, char **env)
 //	}
 
 
-	printf("\n%s\n", stack->pre_com);
+	printf("\nBefore redirect: %s\n", stack->pre_com);
 	parser(stack, env);
 
 

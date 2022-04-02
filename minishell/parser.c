@@ -36,10 +36,11 @@ void parser(t_list *elem, char **env)
 //			s = dollar(s, &i, env);
 
 		if (s[i] == '>' || s[i] == '<')
-			redirects(s, &i, &elem->fd0, env);
+			s = redirects(s, &i, &elem->fd0, env);
 	}
-//	printf("s: %s\n", s);
 	elem->pre_com = s;
+	printf("After redirect: %s\n", s);
+
 }
 
 char *dollar(char *s, int *i, char **env)
