@@ -47,7 +47,8 @@ void	parser(t_list *elem, char **env);
 int 	pre_parser(char *s);
 int		stack_init(char *s, t_list **stack);
 void	ft_lstprint(t_list *lst);
-char	*redirects(char *s, int *i, int *fd, char **env);
+char	*redirects(char *s, int *i, t_list *elem, char **env);
+char	**ft_split(char const *s, char c);
 
 void	ft_push(t_list **lst, t_list *new);
 t_list	*ft_lstnew(char* content, int *fd, int pipe);

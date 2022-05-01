@@ -20,27 +20,19 @@ void parser(t_list *elem, char **env)
 	i = -1;
 	while(s[++i])
 	{
-//		if (s[i] == '\'')
-//		{
-//			s = gap(s, &i);
-////			printf("s: %s, s[i]: %c\n", s, s[i]);
-//		}
-//		if (s[i] == '\"')
-//		{
-//			s = gap2(s, &i, env);
-////			printf("s: %s, s[i]: %c\n", s, s[i]);
-//		}
-//		if (s[i] == '\\')
-//			s = slash(s, &i);
-//		if (s[i] == '$')
-//			s = dollar(s, &i, env);
-
+		if (s[i] == '\'')
+			s = gap(s, &i);
+		if (s[i] == '\"')
+			s = gap2(s, &i, env);
+		if (s[i] == '\\')
+			s = slash(s, &i);
+		if (s[i] == '$')
+			s = dollar(s, &i, env);
 		if (s[i] == '>' || s[i] == '<')
-			s = redirects(s, &i, &elem->fd0, env);
+			s = redirects(s, &i, elem, env);
 	}
 	elem->pre_com = s;
-	printf("After redirect: %s\n", s);
-
+	elem->com = ft_split(s, ' ');
 }
 
 char *dollar(char *s, int *i, char **env)
@@ -69,11 +61,6 @@ char *dollar(char *s, int *i, char **env)
 
 	tmp1 = ft_substr(s, 0, j);
 	tmp3 = ft_strdup(s + *i);
-
-//	printf("tmp1: %s\n", tmp1);
-//	printf("tmp2: %s\n", value);
-//	printf("tmp3: %s\n", tmp3);
-
 
 	res1 = ft_strjoin(tmp1, value);
 	*i = j - 1;
@@ -131,9 +118,6 @@ char *gap(char *s, int *i)
 	tmp1 = ft_substr(s, 0, j);
 	tmp2 = ft_substr(s, j + 1, *i - j - 1);
 	tmp3 = ft_strdup(s + *i + 1);
-//	printf("tmp1: %s\n", tmp1);
-//	printf("tmp2: %s\n", tmp2);
-//	printf("tmp3: %s\n", tmp3);
 
 	res1 = ft_strjoin(tmp1, tmp2);
 	free(tmp1);
@@ -142,9 +126,6 @@ char *gap(char *s, int *i)
 	res2 = ft_strjoin(res1, tmp3);
 	free(tmp3);
 	free(res1);
-//	printf("i: %d, j: %d\n", *i, j);
-
-//	printf("res: %s\n", res2);
 
 	free(s);
 	*i = *i - 1;
@@ -168,9 +149,6 @@ char *gap2(char *s, int *i, char **env)
 	tmp1 = ft_substr(s, 0, j);
 	tmp2 = ft_substr(s, j + 1, *i - j - 1);
 	tmp3 = ft_strdup(s + *i + 1);
-	//	printf("tmp1: %s\n", tmp1);
-	//	printf("tmp2: %s\n", tmp2);
-	//	printf("tmp3: %s\n", tmp3);
 
 	res1 = ft_strjoin(tmp1, tmp2);
 	free(tmp1);
@@ -179,11 +157,8 @@ char *gap2(char *s, int *i, char **env)
 	res2 = ft_strjoin(res1, tmp3);
 	free(tmp3);
 	free(res1);
-	//	printf("i: %d, j: %d\n", *i, j);
-
-	//	printf("res: %s\n", res2);
-
 	free(s);
+
 	*i = *i - 1;
 	return res2;
 }

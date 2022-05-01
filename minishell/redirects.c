@@ -26,14 +26,14 @@ void	skip_space(char *s, int *i)
 		;
 }
 
-int	create_file(char *file_name, const char *s, int *fd)
+int	create_file(char *file_name, const char *s, t_list *elem)
 {
 	if (*s == '<')
-		fd[0] = open(file_name, O_RDONLY);
+		elem->fd0 = open(file_name, O_RDONLY);
 	else if (*(s + 1) == '>')
-		fd[1] = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		elem->fd1 = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else if (*s == '>')
-		fd[1] = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		elem->fd1 = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		printf("shit happened in redirect computing\n");
 	if (errno != 0)
@@ -41,21 +41,8 @@ int	create_file(char *file_name, const char *s, int *fd)
 	return errno;
 }
 
-char	*redirects(char *s, int *i, int *fd, char **env)
+char	*end_of_filename(char *s, int *i, char **env)
 {
-	int j;
-	int start;
-
-	char *file_name;
-	char *tmp1, *tmp3;
-	char *res;
-
-	start = *i - 1;
-	skip_space(s, i);
-	printf("s: %s\n", &s[*i]);
-	printf("ch: %c\n", s[start + 1]);
-
-	j = *i;
 	while(s[++(*i)] && !is_space(s[*i]))
 	{
 		if (s[*i] == '\'')
@@ -67,26 +54,34 @@ char	*redirects(char *s, int *i, int *fd, char **env)
 		if (s[*i] == '$')
 			s = dollar(s, i, env);
 	}
-	file_name = ft_substr(s, j, *i - j);
-	printf("file_name: %s\n\n", file_name);
+	return s;
+}
 
-	create_file(file_name, &s[start + 1], fd);
+char	*redirects(char *s, int *i, t_list *elem, char **env)
+{
+	int first_letter;
+	int start_pos;
+	char *file_name;
+	char *beginning;
+	char *ending;
+	char *res;
 
+	start_pos = *i - 1;
+	skip_space(s, i);
+	first_letter = *i;
+	s = end_of_filename(s, i, env);
 
-	tmp1 = ft_substr(s, 0, start + 1);
-	tmp3 = ft_strdup(s + *i);
+	file_name = ft_substr(s, first_letter, *i - first_letter);
+	create_file(file_name, &s[start_pos + 1], elem);
 
-	printf("tmp1: %s\n", tmp1);
-	printf("tmp3: %s\n", tmp3);
-
-
-	res = ft_strjoin(tmp1, tmp3);
-	printf("res1: %s\n\n", res);
+	beginning = ft_substr(s, 0, start_pos + 1);
+	ending = ft_strdup(s + *i);
+	res = ft_strjoin(beginning, ending);
 
 	free(s);
-	free(tmp1);
-	free(tmp3);
+	free(beginning);
+	free(ending);
 	free(file_name);
-
+	*i = start_pos;
 	return res;
 }
