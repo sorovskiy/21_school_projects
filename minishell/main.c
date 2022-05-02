@@ -17,19 +17,23 @@ int main(int argc, char **argv, char **env)
 	int n;
 	t_list	*stack = NULL, *lst;
 
-//	char *com = ft_strdup("\"sdf\"com\\\"ma|nd\"lsdkcomma\"nd\\");
-//	char *com = ft_strdup("\"sdf\"com$USE ma|nd\"lsdkcomma\"nd");
+	// gaps, slash
+//	char *com = ft_strdup("\"sdf\"com\\\"ma | nd\"lsdkcomma\"nd\\xx");
+	// dollar($)
+//	char *com = ft_strdup("\"sdf\"com$USER ma|nd\"lsdkcomma\"nd");
 //	char *red = ft_strdup("$USER ls \"-l ls\"k | echo $US\'ER|ef\'sd\"df ; gssd\"d ; cat -e abc");
+	// multiple command
 //	char *com = ft_strdup("ls \"-l ls\"k first > second_out.txt se > firstout.txt | echo $US\'ER|ef\'s d\"df  ; gssd\"d ; cat -e abc > outfile.txt ");
-	char *com = ft_strdup("ls > file1 > file2");
+	// redirects
+	char *com = ft_strdup("< main.cs ls -l -a > file1 > file2 > file3");
 
 	printf("%s\n\n", com);
 
 
 	n = stack_init(com, &stack);
-	printf("Preparser check result: n = %d\n", n);
-	ft_lstprint(stack);
 
+	printf("Preparser check result: n = %d\n\n", n);
+	ft_lstprint(stack);
 
 
 	lst = stack;
@@ -43,15 +47,20 @@ int main(int argc, char **argv, char **env)
 			return errno;
 		}
 		printf("After parser: %s\n", lst->pre_com);
+//		while (*lst->com)
+//		{
+//			printf("%s ", *lst->com);
+//			lst->com = lst->com + 1;
+//		}
+//		printf("\n");
 		lst = lst->next;
 	}
 
-	printf("\n\n");
+//
+	printf("\n");
 	ft_lstprint(stack);
 
 
-
-//	while(1);
 	return 0;
 }
 

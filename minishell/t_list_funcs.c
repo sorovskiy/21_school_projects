@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-t_list	*ft_lstnew(char* content, int *fd, int pipe)
+t_list	*ft_lstnew(char *content, int pipe)
 {
 	t_list	*elem;
 
@@ -19,30 +19,22 @@ t_list	*ft_lstnew(char* content, int *fd, int pipe)
 	if (!elem)
 		return (NULL);
 	elem->pre_com = content;
-	elem->fd0 = fd[0];
-	elem->fd1 = fd[1];
+	elem->fd0 = 0;
+	elem->fd1 = 1;
 	elem->pipe = pipe;
 	elem->next = NULL;
 	return (elem);
 }
 
-void ft_lstprint(t_list *lst)
+void	ft_lstprint(t_list *lst)
 {
 	while (lst)
 	{
-		printf("!%s! - %20d - %d - %d\n", lst->pre_com, lst->fd0, lst->fd1, lst->pipe);
+		printf("!%s! - %20d - %d - %d\n",
+			lst->pre_com, lst->fd0, lst->fd1, lst->pipe);
 		lst = lst->next;
 	}
 }
-
-//void ft_lstprint_after_parse(t_list *lst, char **env)
-//{
-//	while (lst)
-//	{
-//		printf("!%s! - %20d - %d - %d\n", parser(lst->pre_com, env), lst->fd0, lst->fd1, lst->pipe);
-//		lst = lst->next;
-//	}
-//}
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
@@ -81,24 +73,4 @@ t_list	*ft_lstlast(t_list *lst)
 	while (lst->next)
 		lst = lst->next;
 	return (lst);
-}
-
-t_list	*ft_pop(t_list **lst)
-{
-	t_list	*el;
-
-	if (!lst || !(*lst))
-		return (NULL);
-	el = *lst;
-	*lst = el->next;
-	el->next = NULL;
-	return (el);
-}
-
-void	ft_push(t_list **lst, t_list *new)
-{
-	if (!lst || !new)
-		return ;
-	new->next = *lst;
-	*lst = new;
 }

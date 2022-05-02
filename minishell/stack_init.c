@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-void gaps_redir(char *s, int *i)
+void	gaps_redir(char *s, int *i)
 {
 	if (s[*i] == '\'')
 	{
@@ -26,7 +26,7 @@ void gaps_redir(char *s, int *i)
 	}
 }
 
-char *stack_add_elem(char *s, int *i, t_list **stack, int *fd)
+char	*stack_add_elem(char *s, int *i, t_list **stack)
 {
 	char	*new_s;
 	int		pipe;
@@ -34,39 +34,31 @@ char *stack_add_elem(char *s, int *i, t_list **stack, int *fd)
 	pipe = 0;
 	if (s[*i] == '|')
 		pipe = 1;
-	ft_lstadd_back(stack, ft_lstnew(ft_substr(s, 0, *i), fd, pipe));
+	ft_lstadd_back(stack, ft_lstnew(ft_substr(s, 0, *i), pipe));
 	while ((s[*i + 1] == ' ' || s[*i + 1] == '\t'))
 		(*i)++;
 	new_s = ft_strdup(s + *i + 1);
 	free(s);
-
 	*i = 0;
-	fd[0] = 0;
-	fd[1] = 1;
-	return new_s;
+	return (new_s);
 }
 
-int stack_init(char *s, t_list **stack)
+int	stack_init(char *s, t_list **stack)
 {
-	int i;
-	int fd[2];
+	int	i;
 
 	if (pre_parser(s) != 0)
-		return 1;
+		return (1);
 	i = -1;
-	fd[0] = 0;
-	fd[1] = 1;
-	while(s[++i])
+	while (s[++i])
 	{
 		if (s[i] == '|' || s[i] == ';')
-			s = stack_add_elem(s, &i, stack, fd);
+			s = stack_add_elem(s, &i, stack);
 		if (s[i] == '\'' || s[i] == '\"')
 			gaps_redir(s, &i);
-		if (s[i] == '\\' &&  s[i + 1] != '\0')
+		if (s[i] == '\\' && s[i + 1] != '\0')
 			i += 1;
 	}
-
-	ft_lstadd_back(stack, ft_lstnew(s, fd, 0));
-	return 0;
+	ft_lstadd_back(stack, ft_lstnew(s, 0));
+	return (0);
 }
-

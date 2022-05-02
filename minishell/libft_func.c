@@ -19,19 +19,6 @@ int	ft_isalnum(int ch)
 	return (0);
 }
 
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (*str != '\0')
-	{
-		str++;
-		i++;
-	}
-	return (i);
-}
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
@@ -99,26 +86,6 @@ char	*ft_strdup(const char *s)
 	}
 	a[i] = '\0';
 	return (a);
-}
-
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if (*needle == '\0')
-		return ((char *)haystack);
-	while (haystack[i] && i < len)
-	{
-		j = 0;
-		while (haystack[i + j] == needle[j] && needle[j] && (i + j) < len)
-			j++;
-		if (needle[j] == '\0')
-			return ((char *)haystack + i);
-		i++;
-	}
-	return ((void *)0);
 }
 
 int	ft_strncmp(char *s1, char *s2, unsigned int n)
