@@ -25,7 +25,8 @@ int main(int argc, char **argv, char **env)
 	// multiple command
 //	char *com = ft_strdup("ls \"-l ls\"k first > second_out.txt se > firstout.txt | echo $US\'ER|ef\'s d\"df  ; gssd\"d ; cat -e abc > outfile.txt ");
 	// redirects
-	char *com = ft_strdup("< main.cs ls -l -a > file1 > file2 > file3");
+//	char *com = ft_strdup("< main.cs ls -l -a > file1 > file2 > file3");
+    char *com = ft_strdup("ls -l ||| cat -e");
 
 	printf("%s\n\n", com);
 
@@ -47,16 +48,9 @@ int main(int argc, char **argv, char **env)
 			return errno;
 		}
 		printf("After parser: %s\n", lst->pre_com);
-//		while (*lst->com)
-//		{
-//			printf("%s ", *lst->com);
-//			lst->com = lst->com + 1;
-//		}
-//		printf("\n");
 		lst = lst->next;
 	}
 
-//
 	printf("\n");
 	ft_lstprint(stack);
 
