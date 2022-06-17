@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env)
 //	char *com = ft_strdup("ls \"-l ls\"k first > second_out.txt se > firstout.txt | echo $US\'ER|ef\'s d\"df  ; gssd\"d ; cat -e abc > outfile.txt ");
 	// redirects
 //	char *com = ft_strdup("< main.cs ls -l -a > file1 > file2 > file3");
-    char *com = ft_strdup("ls -l ||| cat -e");
+    char *com = ft_strdup("ls -l <<  del | cat -e");
 
 	printf("%s\n\n", com);
 

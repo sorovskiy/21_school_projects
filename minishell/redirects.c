@@ -20,21 +20,63 @@ int	is_space(char c)
 
 void	skip_space(char *s, int *i)
 {
-	if (s[*i] == '>')
+	while (s[*i] == '>' || s[*i] == '<')
 		++(*i);
-	while (is_space(s[++(*i)]))
-		;
+	while (is_space(s[*i]))
+        ++(*i);
+}
+
+int	heredoc(char *stop, int *end)
+{
+	char	*line;
+
+	line = NULL;
+	close(end[0]);
+	printf("heredoc> ");
+	while (get_next_line(&line))
+	{
+		if ((ft_strncmp(stop, line, ft_strlen(stop))) == 0)
+		{
+			free(line);
+			close(end[1]);
+			exit(0);
+		}
+		printf("heredoc> ");
+		if (write(end[1], line, ft_strlen(line)) == -1)
+			exit(1);
+		free(line);
+		line = NULL;
+	}
+	free(line);
+	close(end[1]);
+	exit(1);
 }
 
 int	create_file(char *file_name, const char *s, t_list *elem)
 {
-	if (*s == '<')
+	int	end[2];
+	int	pid;
+
+    if (*(s + 1) == '<')
+	{
+		if (pipe(end) == -1)
+			printf("minishell: error making pipe: %s\n", strerror(errno));
+		elem->fd0 = end[0];
+		pid = fork();
+		if (pid == -1)
+			printf("minishell: error forking: %s\n", strerror(errno));
+		if (pid > 0)
+			heredoc(file_name, end);
+		else if (pid == 0)
+			waitpid(pid, NULL, 0);
+	}
+    else if (*s == '<')
 		elem->fd0 = open(file_name, O_RDONLY);
-	else if (*(s + 1) == '>')
+    else if (*(s + 1) == '>')
 		elem->fd1 = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (*s == '>')
+    else if (*s == '>')
 		elem->fd1 = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else
+    else
 		printf("shit happened in redirect computing\n");
 	if (errno != 0)
 		printf("minishell: %s: %s\n", strerror(errno), file_name);

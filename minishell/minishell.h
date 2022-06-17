@@ -19,6 +19,9 @@
 # include <limits.h>
 # include <errno.h>
 # include <string.h>
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_list
 {
@@ -50,5 +53,7 @@ char	**ft_split(char const *s, char c);
 char	*form_result_string(int *i, int j, char *s, char *value);
 t_list	*ft_lstnew(char *content, int pipe);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+int		get_next_line(char **line);
+
 
 #endif //MINISHELL_H
