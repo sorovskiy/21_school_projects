@@ -16,7 +16,7 @@ void	skip_space(char *s, int *i)
 	while (s[*i] == '>' || s[*i] == '<')
 		++(*i);
 	while (is_space(s[*i]))
-        ++(*i);
+		++(*i);
 }
 
 int	heredoc(char *stop, int *end)
@@ -50,7 +50,7 @@ void	create_file(char *file_name, const char *s, t_list *elem)
 	int	end[2];
 	int	pid;
 
-    if (*(s + 1) == '<')
+	if (*(s + 1) == '<')
 	{
 		if (pipe(end) == -1)
 			printf("minishell: error making pipe: %s\n", strerror(errno));
@@ -66,11 +66,11 @@ void	create_file(char *file_name, const char *s, t_list *elem)
 			waitpid(pid, NULL, 0);
 		}
 	}
-    else if (*s == '<')
+	else if (*s == '<')
 		elem->fd0 = open(file_name, O_RDONLY);
-    else if (*(s + 1) == '>')
+	else if (*(s + 1) == '>')
 		elem->fd1 = open(file_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
-    else if (*s == '>')
+	else if (*s == '>')
 		elem->fd1 = open(file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 }
 
