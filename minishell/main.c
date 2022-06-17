@@ -26,7 +26,7 @@ int main(int argc, char **argv, char **env)
 //	char *com = ft_strdup("ls \"-l ls\"k first > second_out.txt se > firstout.txt | echo $US\'ER|ef\'s d\"df  ; gssd\"d ; cat -e abc > outfile.txt ");
 	// redirects
 //	char *com = ft_strdup("< main.cs ls -l -a > file1 > file2 > file3");
-    char *com = ft_strdup("ls -l <<  del | cat -e");
+    char *com = ft_strdup("ls -l << del | cat -e");
 
 	printf("%s\n\n", com);
 
@@ -54,6 +54,14 @@ int main(int argc, char **argv, char **env)
 	printf("\n");
 	ft_lstprint(stack);
 
+	int fd = stack->fd0;
+	char *str;
+
+	while (get_next_line(&str, fd))
+	{
+		printf("%s", str);
+		free(str);
+	}
 
 	return 0;
 }

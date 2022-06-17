@@ -53,7 +53,8 @@ char	**ft_split(char const *s, char c);
 char	*form_result_string(int *i, int j, char *s, char *value);
 t_list	*ft_lstnew(char *content, int pipe);
 void	ft_lstadd_back(t_list **lst, t_list *new);
-int		get_next_line(char **line);
-
+int		get_next_line(char **line, int fd);
+void	ft_putstr_fd(char *s, int fd);
+int		is_space(char c);
 
 #endif //MINISHELL_H

@@ -11,39 +11,58 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-static void	ft_add(int i, char buffer, char **line, char *join)
+void	ft_putstr_fd(char *s, int fd)
 {
-	join[i++] = buffer;
-	join[i] = '\0';
-	free(*line);
-	*line = join;
+	if (!s)
+		return ;
+	while (*s != '\0')
+	{
+		write(fd, s, 1);
+		s++;
+	}
 }
 
-int	get_next_line(char **line)
+char	*ft_strjoin_gnl(char const *s1, char const *s2)
 {
+	char	*str;
 	int		i;
-	int		num;
-	char	*join;
-	char	buffer[1];
+	int		len;
 
 	i = 0;
-	(*line) = (char *) malloc(sizeof(char) * 1);
-	if (!(*line) || !line)
+	if (!s1 || !s2)
+		return (NULL);
+	len = ft_strlen((char *)s1);
+	str = malloc(sizeof(char) * (len + ft_strlen((char *)s2) + 1));
+	if (!str)
+		return (NULL);
+	while (*s1)
+		str[i++] = *s1++;
+	while (*s2)
+		str[i++] = *s2++;
+	str[i] = '\0';
+	free((void *)(s1 - len));
+	return (str);
+}
+
+int	get_next_line(char **line, int fd)
+{
+	int		bytes_buf;
+	char	buffer[2];
+
+	bytes_buf = 0;
+	*line = malloc(1);
+	if (!(*line))
 		return (-1);
 	(*line)[0] = '\0';
-	num = 1;
-	while ((num > 0) && buffer[0] != '\n')
+	buffer[1] = '\0';
+	while ((read(fd, buffer, 1)) > 0)
 	{
-		num = read(0, buffer, 1);
-		join = (char *) malloc(sizeof(char) * ((ft_strlen(*line)) + 2));
-		if (!join)
-			return (-1);
-		while ((*line)[i])
-		{
-			join[i] = (*line)[i];
-			i++;
-		}
-		ft_add(i, buffer[0], line, join);
+		bytes_buf = 1;
+		*line = ft_strjoin_gnl((*line), buffer);
+		if (buffer[0] == '\n')
+			break ;
 	}
-	return (num);
+	if (!bytes_buf)
+		free(*line);
+	return (bytes_buf);
 }

@@ -24,6 +24,13 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
+int	is_space(char c)
+{
+	if (c == ' ' || c == '\t')
+		return (1);
+	return (0);
+}
+
 char	*ft_strjoin_free_source(char *s1, char *s2)
 {
 	char	*str;
@@ -49,22 +56,3 @@ char	*ft_strjoin_free_source(char *s1, char *s2)
 	return (str);
 }
 
-t_list	*ft_pop(t_list **lst)
-{
-	t_list	*el;
-
-	if (!lst || !(*lst))
-		return (NULL);
-	el = *lst;
-	*lst = el->next;
-	el->next = NULL;
-	return (el);
-}
-
-void	ft_push(t_list **lst, t_list *new)
-{
-	if (!lst || !new)
-		return ;
-	new->next = *lst;
-	*lst = new;
-}
